@@ -36,9 +36,12 @@ export async function postLogin(req, res){
         if (!registeredUser || !bcrypt.compareSync(loginData.password, registeredUser.password)) {
             return response.status(409).send("usuário não cadastrado ou senha incorreta");
         }
-        res.status(500).send(err);
+        else{
+            await db.collection("sessions").insertOne({ userId: loginData.password, token })
+            return res.status(200).send(token);
+        }
 
     } catch (err) {
-        res.status(200).send({ token: token });
+        res.status(500).send(err);
     }
 }

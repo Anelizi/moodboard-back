@@ -4,7 +4,7 @@ import joi from "joi"
 const cartSchema= joi.object({
     productName: joi.string().required(),
     amount: joi.number().required(),
-    price: joi.number.required()
+    price: joi.number().required()
 })
 
 export default cartSchema;

@@ -2,7 +2,7 @@ import { v4 as uuid } from 'uuid';
 import { db } from "../app.js";
 import dayjs from "dayjs"
 
-export async function postProductInformartion(req, res) {
+export async function postProductsInformartion(req, res) {
     try {
         await db.collection("products").insertMany(
             {
@@ -89,18 +89,17 @@ export async function getProductInformartion(req, res) {
     }
 }
 
-export async function addPurchase(req, res) {
+export async function addToCart(req, res) {
     const { product, price, amount } = req.body;
-    let session = res.locals.sessions;
+    let session = res.locals.session;
 
-    let now = dayjs()
 
 
     const user = await db.collection("users").findOne({
         password: session.userId
     })
 
-    const body = { product: product, price: price, amount: amount, date: now.format("DD/MM") }
+    const body = { product: product, price: price, amount: amount, buyer: session.userID }
 
     if (user) {
         try {
@@ -117,3 +116,36 @@ export async function addPurchase(req, res) {
 
 }
 
+export async function getCart(req,res){
+    let session = res.locals.session;
+    const user = await db.collection("users").findOne({
+        password: session.userId
+    })
+
+    if (user) {
+        try {
+            let buyerCart= await db.collection("cart").find({buyer: session.userId}).toArray()
+            return res.status(200).send(buyerCart)
+
+        } catch (err) {
+            console.log(err.message)
+        }
+    }
+    else {
+        alert("Usuário não cadastrado")
+    }
+}
+
+
+export async function postPurchase(req,res){
+    let session = res.locals.session;
+    const {product, total, address}= req.body;
+    let now = dayjs()
+    try{
+        await db.collection("purchases").insertOne({product: product, total: total, address: address, buyer: session.userId, date: now.format("DD/MM")})
+        return res.status(200).send("Compra realizada com sucesso!")
+
+    }catch(err){
+        console.log(err.message)
+    }
+}
