@@ -4,7 +4,7 @@ import cartSchema from "../schemas/cart.schema.js";
 import validateSchema from "../middlewares/validateSchema.middleware.js";
 import purchaseSchema from "../schemas/purchase.schema.js";
 import { getProductInformartion , postProductsInformartion} from "../controllers/product.controllers.js";
-import { addToCart , getCart, postPurchase} from "../controllers/product.controllers.js";
+import { addToCart , getCart, postPurchase, deleteFromCart} from "../controllers/product.controllers.js";
 const productRouter= Router()
 
 //Cadastro dos produtos no banco de dados (Products' register in the database)
@@ -19,5 +19,9 @@ productRouter.post(`${process.env.DATABASE_URL}/carrinho`, authValidation, valid
 //Obtenção das informações do carrinho do comprador (Obtaining the buyer's cart information)
 productRouter.get(`${process.env.DATABASE_URL}/carrinho`, authValidation, getCart)
 
+//Realização da compra
 productRouter.post(`${process.env.DATABASE_URL}/compras`, authValidation, validateSchema(purchaseSchema), postPurchase )
+
+//Retirada de produto do carrinho
+productRouter.delete(`${process.env.DATABASE_URL}/carrinho`,authValidation, deleteFromCart)
 

@@ -93,13 +93,14 @@ export async function addToCart(req, res) {
     const { product, price, amount } = req.body;
     let session = res.locals.session;
 
+    const identification= uuid()
 
 
     const user = await db.collection("users").findOne({
         password: session.userId
     })
 
-    const body = { product: product, price: price, amount: amount, buyer: session.userID }
+    const body = { product: product, price: price, amount: amount, buyer: session.userID, identification: identification }
 
     if (user) {
         try {
@@ -133,6 +134,16 @@ export async function getCart(req,res){
     }
     else {
         alert("Usuário não cadastrado")
+    }
+}
+
+export async function deleteFromCart(req,res){
+    const {identification}= req.headers;
+    try{
+        await db.collection("cart").deleteOne({identification: identification})
+        return res.status(200).send("Compra retirada do carrinho com sucesso")
+    } catch(err){
+        return res.status(500).send("Deleção não realizada")
     }
 }
 
