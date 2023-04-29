@@ -7,12 +7,12 @@ import { authValidation } from "../middlewares/authValidation.middleware.js";
 const authRouter= Router()
 
 // Cadastro do usuário
-authRouter.post(`${process.env.DATABASE_URL}/cadastro`,validateSchema(userSignUpPageSchema), postSignUp)
+authRouter.post("/cadastro",validateSchema(userSignUpPageSchema), postSignUp)
 
 //Login do usuário
-authRouter.post(`${process.env.DATABASE_URL}/login`,validateSchema(userLoginSchema), postLogin)
+authRouter.post("/",validateSchema(userLoginSchema), postLogin)
 
 //Saída do usuário
-authRouter.post(`${process.env.DATABASE_URL}/logout`,authValidation, postLogout)
+authRouter.post(`/logout`,authValidation, postLogout)
 
 export default authRouter

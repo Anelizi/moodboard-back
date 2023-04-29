@@ -32,7 +32,7 @@ export async function postSignUp(req, res) {
 export async function postLogin(req, res){
     const token = uuid()
     const loginData = req.body
-    const registeredUser = await db.collection("users").findOne({ email: UserData.email })
+    const registeredUser = await db.collection("users").findOne({ email: loginData.email })
     try {
         if (!registeredUser || !bcrypt.compareSync(loginData.password, registeredUser.password)) {
             return response.status(409).send("usuário não cadastrado ou senha incorreta");

@@ -1,18 +1,18 @@
-import Joi from "joi";
+import joi from "joi";
 
 
 //Esquema para validação de cadastro
-export const userSignUpPageSchema = Joi.object({
-    name: Joi.string().min(1).required(),
-    email: Joi.string().email().min(1).required(),
-    image: Joi.string().uri().required(),
-    password: Joi.string().min(3).required(),
-    confirmPassword: Joi.any().valid(Joi.ref('password')).required()
+export const userSignUpPageSchema = joi.object({
+    name: joi.string().min(1).required(),
+    email: joi.string().email().min(1).required(),
+    image: joi.string().required(),
+    password: joi.string().min(3).required(),
+    //confirmPassword: joi.any().valid(joi.ref('password')).required()
 })
 
 //Esquema para validação de login
 
-export const userLoginSchema = Joi.object({
-    email: Joi.string().email().min(1).required(),
-    password: Joi.string().min(1).required()
+export const userLoginSchema = joi.object({
+    email: joi.string().email().min(1).required(),
+    password: joi.string().min(1).required()
 })

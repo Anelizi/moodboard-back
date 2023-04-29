@@ -8,21 +8,21 @@ import { addToCart , getCart, postPurchase, deleteFromCart} from "../controllers
 const productRouter= Router()
 
 //Cadastro dos produtos no banco de dados (Products' register in the database)
-productRouter.post(`${process.env.DATABASE_URL}`, postProductsInformartion)
+productRouter.post("/", postProductsInformartion)
 
 //Obtenção de informações do produto para exibição nas páginas de compra (Obtaining the product's information  in order to exhibit it in the purchase page)
-productRouter.get(`${process.env.DATABASE_URL}/produtos`, authValidation, getProductInformartion)
+productRouter.get("/produtos", authValidation, getProductInformartion)
 
 //Adição de desejo de compra ao carrinho (Purchase addition to the buyer's cart)
-productRouter.post(`${process.env.DATABASE_URL}/carrinho`, authValidation, validateSchema(cartSchema), addToCart)
+productRouter.post("/carrinho", authValidation, validateSchema(cartSchema), addToCart)
 
 //Obtenção das informações do carrinho do comprador (Obtaining the buyer's cart information)
-productRouter.get(`${process.env.DATABASE_URL}/carrinho`, authValidation, getCart)
+productRouter.get("/carrinho", authValidation, getCart)
 
 //Realização da compra
-productRouter.post(`${process.env.DATABASE_URL}/compras`, authValidation, validateSchema(purchaseSchema), postPurchase )
+productRouter.post("/compras", authValidation, validateSchema(purchaseSchema), postPurchase )
 
 //Retirada de produto do carrinho
-productRouter.delete(`${process.env.DATABASE_URL}/carrinho`,authValidation, deleteFromCart)
+productRouter.delete("/compras",authValidation, deleteFromCart)
 
 export default productRouter
