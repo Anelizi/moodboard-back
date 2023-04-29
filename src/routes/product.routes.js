@@ -25,3 +25,4 @@ productRouter.post(`${process.env.DATABASE_URL}/compras`, authValidation, valida
 //Retirada de produto do carrinho
 productRouter.delete(`${process.env.DATABASE_URL}/carrinho`,authValidation, deleteFromCart)
 
+export default productRouter

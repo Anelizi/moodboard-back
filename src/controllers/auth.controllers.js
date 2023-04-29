@@ -1,4 +1,5 @@
-import { db } from "../app.js";
+// import { db } from "../app.js";
+import {db} from "../database/database.connection.js"
 import { v4 as uuid } from 'uuid';
 import bcrypt from "bcrypt";
 
@@ -43,5 +44,16 @@ export async function postLogin(req, res){
 
     } catch (err) {
         res.status(500).send(err);
+    }
+}
+
+//POST LOGOUT
+export async function postLogout(req, res){
+    const token = res.locals.session.token
+    try {
+        await db.collection("sessions").deleteOne({token})
+        res.sendStatus(200)
+    } catch (error) {
+        res.status(500).send(error.message)
     }
 }

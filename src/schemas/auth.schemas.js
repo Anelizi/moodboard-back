@@ -5,7 +5,7 @@ import Joi from "joi";
 export const userSignUpPageSchema = Joi.object({
     name: Joi.string().min(1).required(),
     email: Joi.string().email().min(1).required(),
-    image: Joi.string().urlSafe().required(),
+    image: Joi.string().uri().required(),
     password: Joi.string().min(3).required(),
     confirmPassword: Joi.any().valid(Joi.ref('password')).required()
 })

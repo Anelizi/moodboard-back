@@ -1,5 +1,6 @@
 import { v4 as uuid } from 'uuid';
-import { db } from "../app.js";
+// import { db } from "../app.js";
+import {db} from "../database/database.connection.js"
 import dayjs from "dayjs"
 
 export async function postProductsInformartion(req, res) {
