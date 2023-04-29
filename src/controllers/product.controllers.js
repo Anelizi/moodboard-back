@@ -151,10 +151,10 @@ export async function deleteFromCart(req,res){
 
 export async function postPurchase(req,res){
     let session = res.locals.session;
-    const {product, total, address}= req.body;
+    const {product, total, address, cardname, digits, cvv, expire}= req.body;
     let now = dayjs()
     try{
-        await db.collection("purchases").insertOne({product: product, total: total, address: address, buyer: session.userId, date: now.format("DD/MM")})
+        await db.collection("purchases").insertOne({product: product, total: total, address: address, cardname: cardname, cvv: cvv, expire:expire, digits: digits, buyer: session.userId, date: now.format("DD/MM")})
         return res.status(200).send("Compra realizada com sucesso!")
 
     }catch(err){
