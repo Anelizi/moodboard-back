@@ -161,3 +161,18 @@ export async function postPurchase(req,res){
         console.log(err.message)
     }
 }
+
+export async function getPurchase(req, res){
+    const { userId } = res.locals.session
+    try {
+        const purchase = await db
+        .collection("purchases")
+        .find({userId})
+        .sort({date: -1})
+        .toArray()
+        
+        res.send(purchase)
+    } catch (error) {
+        res.status(500).send(error.message)
+    }
+}

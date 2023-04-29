@@ -3,7 +3,7 @@ import { authValidation } from "../middlewares/authValidation.middleware.js";
 import cartSchema from "../schemas/cart.schema.js";
 import validateSchema from "../middlewares/validateSchema.middleware.js";
 import purchaseSchema from "../schemas/purchase.schema.js";
-import { getProductInformartion , postProductsInformartion} from "../controllers/product.controllers.js";
+import { getProductInformartion , getPurchase, postProductsInformartion} from "../controllers/product.controllers.js";
 import { addToCart , getCart, postPurchase, deleteFromCart} from "../controllers/product.controllers.js";
 const productRouter= Router()
 
@@ -24,5 +24,8 @@ productRouter.post("/compras", authValidation, validateSchema(purchaseSchema), p
 
 //Retirada de produto do carrinho
 productRouter.delete("/compras",authValidation, deleteFromCart)
+
+//obtenção das informações da complra realizada
+productRouter.get("/compras", authValidation, getPurchase)
 
 export default productRouter
