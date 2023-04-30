@@ -25,7 +25,7 @@ productRouter.get("/carrinho", authValidation, getCart)
 productRouter.post("/compras", authValidation, validateSchema(purchaseSchema), postPurchase )
 
 //Retirada de produto do carrinho
-productRouter.delete("/compras",authValidation, deleteFromCart)
+productRouter.delete("/carrinho",authValidation, deleteFromCart)
 
 //obtenção das informações da complra realizada
 productRouter.get("/compras", authValidation, getPurchase)

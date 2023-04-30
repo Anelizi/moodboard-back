@@ -111,7 +111,9 @@ export async function addToCart(req, res) {
         password: session.userId
     })
 
-    const body = { product: product, price: preco, amount: amount, buyer: session.userID, identification: identification }
+    const comprador= session.userId;
+
+    const body = { product: product, price: preco, amount: amount, buyer: comprador, identification: identification }
 
     if (user) {
         try {
@@ -130,7 +132,6 @@ export async function addToCart(req, res) {
 
 export async function getCart(req,res){
     let session = res.locals.session;
-    console.log(session)
     const user = await db.collection("users").findOne({
         password: session.userId
     })
@@ -138,6 +139,7 @@ export async function getCart(req,res){
     if (user) {
         try {
             let buyerCart= await db.collection("cart").find({buyer: session.userId}).toArray()
+            console.log(buyerCart)
             return res.status(200).send(buyerCart)
 
         } catch (err) {
@@ -162,10 +164,13 @@ export async function deleteFromCart(req,res){
 
 export async function postPurchase(req,res){
     let session = res.locals.session;
-    const {product, total, address, cardname, digits, cvv, expire}= req.body;
+    const {cart, total, address, cardname, digits, cvv, expire}= req.body;
     let now = dayjs()
     try{
-        await db.collection("purchases").insertOne({product: product, total: total, address: address, cardname: cardname, cvv: cvv, expire:expire, digits: digits, buyer: session.userId, date: now.format("DD/MM")})
+        await db.collection("purchases").insertOne({purchase: cart, total: total, address: address, cardname: cardname, cvv: cvv, expire:expire, digits: digits, buyer: session.userId, date: now.format("DD/MM")})
+        for(let i=0; i< cart.length; i++){
+            await db.collection("cart").deleteOne({identification: cart[i].identification })
+        }
         return res.status(200).send("Compra realizada com sucesso!")
 
     }catch(err){
@@ -191,6 +196,8 @@ export async function getPurchase(req, res){
 export async function getStorage(req,res){
     try{
         const storage = await db.collection("products").find().toArray()
+        const cart= await db.collection("cart").find().toArray()
+        console.log(cart)
         return res.status(200).send(storage)
     }catch(err){
         console.log(err.message)

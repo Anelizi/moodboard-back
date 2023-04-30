@@ -1,7 +1,7 @@
 import joi from "joi"
 
 const purchaseSchema= joi.object({
-    product: joi.string().required(),
+    cart: joi.array().min(1).required(),
     total: joi.number().required(),
     address: joi.string().min(10).required(),
     cardname: joi.string().required(),
