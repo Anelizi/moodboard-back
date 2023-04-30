@@ -38,7 +38,8 @@ export async function postLogin(req, res){
             return response.status(409).send("usuário não cadastrado ou senha incorreta");
         }
         else{
-            await db.collection("sessions").insertOne({ userId: loginData.password, token })
+            await db.collection("sessions").insertOne({ userId: registeredUser.password, token })
+            console.log(token)
             return res.status(200).send(token);
         }
 

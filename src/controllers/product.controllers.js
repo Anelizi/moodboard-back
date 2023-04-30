@@ -123,13 +123,14 @@ export async function addToCart(req, res) {
         }
     }
     else {
-        alert("Usuário não cadastrado")
+        return alert("Usuário não cadastrado")
     }
 
 }
 
 export async function getCart(req,res){
     let session = res.locals.session;
+    console.log(session)
     const user = await db.collection("users").findOne({
         password: session.userId
     })
