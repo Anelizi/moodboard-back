@@ -4,8 +4,8 @@ import {db} from "../database/database.connection.js"
 import dayjs from "dayjs"
 
 export async function postProductsInformartion(req, res) {
-    const {post} = req.body;
-    if(post === "ok"){
+    const data = req.body;
+    if(data.post === "ok" && data.product !== "3"){
         try {
             await db.collection("products").insertMany([
                 {
@@ -75,13 +75,12 @@ export async function postProductsInformartion(req, res) {
                     linkPhoto: "https://i.pinimg.com/564x/0f/dc/cf/0fdccf74a757fe37d3acdd791628523b.jpg"
                 },]
             )
-            res.status(200).send("Produtos cadastrados")
+            res.status(200).send("Produtos cadastrados") 
         } catch (err) {
             console.log(err.message)
         }
 
     }
-    
 };
 
 
