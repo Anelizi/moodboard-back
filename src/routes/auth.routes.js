@@ -1,7 +1,7 @@
 import { Router } from "express";
 import {userSignUpPageSchema , userLoginSchema } from "../schemas/auth.schemas.js";
 import validateSchema from "../middlewares/validateSchema.middleware.js";
-import { postSignUp, postLogin, postLogout } from "../controllers/auth.controllers.js";
+import { postSignUp, postLogin, postLogout,getPurchasesMadePage } from "../controllers/auth.controllers.js";
 import { authValidation } from "../middlewares/authValidation.middleware.js";
 
 const authRouter= Router()
@@ -11,6 +11,9 @@ authRouter.post("/cadastro",validateSchema(userSignUpPageSchema), postSignUp)
 
 //Login do usuário
 authRouter.post("/",validateSchema(userLoginSchema), postLogin)
+
+//Dados do Perfil
+authRouter.get("/purchasesMade", getPurchasesMadePage)
 
 //Saída do usuário
 authRouter.post(`/logout`,authValidation, postLogout)

@@ -3,12 +3,10 @@ import { authValidation } from "../middlewares/authValidation.middleware.js";
 import cartSchema from "../schemas/cart.schema.js";
 import validateSchema from "../middlewares/validateSchema.middleware.js";
 import purchaseSchema from "../schemas/purchase.schema.js";
-import { getProductInformartion , getPurchase, postProductsInformartion, getStorage} from "../controllers/product.controllers.js";
+import { getProductInformartion , getPurchase, getStorage} from "../controllers/product.controllers.js";
 import { addToCart , getCart, postPurchase, deleteFromCart} from "../controllers/product.controllers.js";
 const productRouter= Router()
 
-//Cadastro dos produtos no banco de dados (Products' register in the database)
-productRouter.post("/produtos", postProductsInformartion)
 
 productRouter.get("/produtos", getStorage)
 
