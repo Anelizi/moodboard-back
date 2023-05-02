@@ -26,7 +26,7 @@ export async function getProductInformartion(req, res) {
 
 
     const user = await db.collection("users").findOne({
-        password: session.userId
+        email: session.userId
     })
 
     const comprador= session.userId;
@@ -51,7 +51,7 @@ export async function getProductInformartion(req, res) {
 export async function getCart(req,res){
     let session = res.locals.session;
     const user = await db.collection("users").findOne({
-        password: session.userId
+        email: session.userId
     })
 
     if (user) {
@@ -97,18 +97,37 @@ export async function postPurchase(req,res){
 }
 
 export async function getPurchase(req, res){
-    const { userId } = res.locals.session
-    try {
-        const purchase = await db
-        .collection("purchases")
-        .find({userId})
-        .sort({date: -1})
-        .toArray()
-        
-        res.send(purchase)
-    } catch (error) {
-        res.status(500).send(error.message)
+    let session= res.locals.session;
+    console.log(session.userId)
+    const user= await db.collection("users").findOne({email: session.userId })
+
+    if(user){
+        try {
+            const purchase = await db
+            .collection("purchases")
+            .find({buyer:session.userId  })
+            .sort({date: -1})
+            .toArray()
+            
+            return res.send(purchase)
+        } catch (error) {
+            return res.status(500).send(error.message)
+        }
     }
+    
+}
+
+export async function getUserInformation(req,res){
+    let session= res.locals.session;
+    console.log(session.userId)
+    try{
+        const user= await db.collection("users").findOne({email: session.userId })
+        return res.status(200).send(user)
+    } catch(err){
+        console.log(err.message)
+    }
+    
+    
 }
 
 export async function getStorage(req,res){
